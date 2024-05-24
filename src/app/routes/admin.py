@@ -38,19 +38,18 @@ def admin_orders_statistics():
                            loggedIn=session["logged_in"])
 
 
-def get_dynamic_table(orders: list[list[str]]) -> list[list[str]]:
+def get_dynamic_table(orders: list[list[str | int]]) -> list[list[str | int]]:
     # TODO: Codequalität verbessern
     if orders is []:
-        flash(f"No order found, {f'{session["first_name"]}'}. Date: {f'{datetime.time}'}", "info")
         return orders
 
-    allProducts: set = set()
-    allOrders: dict = {}
+    allProducts: list[str] = []
+    allOrders: dict[int, dict[str, int]] = {}
     current_item: str = ""
 
     for order_item_id, order_id, product_name in orders:
         if product_name not in allProducts:
-            allProducts.add(product_name)
+            allProducts.append(product_name)
 
         if order_id in allOrders:
             if product_name in allOrders[order_id]:
@@ -60,21 +59,22 @@ def get_dynamic_table(orders: list[list[str]]) -> list[list[str]]:
         else:
             allOrders[order_id] = {product_name: 1}
 
+    # sort column header alphanumeric
     allProducts = sorted(allProducts)
-    all_headers: list[int] = ["Order ID"] + [d for d in allProducts]
+    all_column_headers: list[int] = ["Order ID"] + [d for d in allProducts]
 
-    dynamic_table: list[list[str]] = []
-    dynamic_table.append(all_headers)
+    dynamic_table: list[list[str | int]] = []
+    dynamic_table.append(all_column_headers)
 
-    for row in sorted(allOrders, key=int):  # int to sort tables ascending
+    for row in sorted(allOrders, key=int):  # int to sort tables ascending by row header (order_id)
         list: list[any] = []
         list.append((row))
-        for i in range(1, len(all_headers)):
-            current_product = all_headers[i]
-            if (current_product in allOrders[(row)]):
-                list.append(str(allOrders[(row)][current_product]))
+        for i in range(1, len(all_column_headers)):
+            current_product: str = all_column_headers[i]
+            if (current_product in allOrders[row]):
+                list.append(allOrders[row][current_product])
             else:
-                list.append('0')
+                list.append(0)
         dynamic_table.append(list)
 
     # for row in dynamicTable:
