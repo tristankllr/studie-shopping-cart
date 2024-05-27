@@ -43,7 +43,7 @@ class OrderController(Controller[OrderModel]):
         combined_results = []
         for order, order_item, product in orders_with_product_info:
             combined_result = [
-                str(order_item.order_item_id),
+                order_item.order_item_id,
                 order.order_id,
                 str(product.product_name)
             ]

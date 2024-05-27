@@ -89,16 +89,20 @@ def cart():
                            noOfItems=session["no_of_items"])
 
 
-def calculate_product_sum_with_discount_util(products: list[dict[str, int | str]]) -> float:
-    """
-    Parameter beinhaltet Informationen über den Warenkorb und die darin enthaltenen Produkte.
-    In einem product befinden sich Informationen über den Preis: product["price"]. Siehe unten.
+def get_prices_from_cart(products: list[dict[str, int | str]]) -> list[int]:
+    prices: list[int] = []
 
-    :param products:
-    :return:
-    """
-    # TODO: Implementieren eines speziellen Rabattes
-    total_price = 0
     for product in products:
-        total_price += product["price"]
+        prices.append(product["price"])
+
+    return prices
+
+
+def calculate_product_sum_with_discount_util(products: list[dict[str, int | str]]) -> int:
+    prices = get_prices_from_cart(products)
+
+    # TODO: Implementieren eines speziellen Rabattes, der die Summe des neuen Warenkorbs berechnet
+    total_price = 0
+    for price in prices:
+        total_price += price
     return total_price
