@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from flask import Blueprint, session, redirect, url_for, render_template, flash, g
 
 from src.app.controllers import OrderController
@@ -78,15 +80,15 @@ def get_dynamic_table(orders: list[list[str | int]]) -> list[list[str | int]]:
 
     # Fill 2d array with values, where column headers are product name and row headers are order id
     for row_order_id in sorted(allOrders, key=int):  # int to sort tables ascending by order_id
-        list_: list[any] = []
-        list_.append((row_order_id))
+        list: list[any] = []
+        list.append((row_order_id))
         for i in range(1, len(all_column_headers)):
             current_product: str = all_column_headers[i]
             if (current_product in allOrders[row_order_id]):
-                list_.append(allOrders[row_order_id][current_product])
+                list.append(allOrders[row_order_id][current_product])
             else:
-                list_.append(0)
-        dynamic_table.append(list_)
+                list.append(0)
+        dynamic_table.append(list)
 
     # for row in dynamicTable:
     #     print(row)

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from flask import Blueprint, g, session, render_template, request, flash, redirect, url_for
 
 from src.app.controllers.cart import CartController

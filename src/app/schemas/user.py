@@ -1,18 +1,20 @@
+from typing import Optional
+
 from pydantic import BaseModel, ConfigDict
 
 
 class UserCreate(BaseModel):
     password: str
-    email: str | None
-    first_name: str | None
-    last_name: str | None
-    address1: str | None
-    address2: str | None
-    zipcode: str | None
-    city: str | None
-    state: str | None
-    country: str | None
-    phone: str | None
+    email: Optional[str]
+    first_name: Optional[str]
+    last_name: Optional[str]
+    address1: Optional[str]
+    address2: Optional[str]
+    zipcode: Optional[str]
+    city: Optional[str]
+    state: Optional[str]
+    country: Optional[str]
+    phone: Optional[str]
 
 
 class User(UserCreate):

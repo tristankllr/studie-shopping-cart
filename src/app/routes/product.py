@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from src.app.controllers.product import ProductController
 from flask import Blueprint, g, session, render_template, request, flash, redirect, url_for
 
