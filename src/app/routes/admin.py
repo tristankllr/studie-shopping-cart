@@ -45,7 +45,7 @@ def get_dynamic_table(orders: list[list[str | int]]) -> list[list[str | int]]:
     orders besteht aus einer Liste aus Listen. Eine Liste besteht jeweils aus einer order_item_id (int), einer order_id (int) und
     dem product_name (str).
 
-    :param orders: list[list[str | int]]
+    :param orders: list[list[str | int]] Rohe Daten, aus welchen eine Statistik erstellt wird
     :return: das 2d Array mit der Statistik mit den product_name als Spaltennamen und der order_id als Reihennamen
     """
 
@@ -55,7 +55,7 @@ def get_dynamic_table(orders: list[list[str | int]]) -> list[list[str | int]]:
 
     allProductNames: list[str] = []
     allOrders:  dict[int, dict[str, int]] = {}
-    current_item: str = ""
+    str: str = ""
 
     for order_item_id, order_id, product_name in orders:
         # Collect unique product names for column headers
@@ -71,6 +71,7 @@ def get_dynamic_table(orders: list[list[str | int]]) -> list[list[str | int]]:
         else:
             allOrders[order_id] = {product_name: 1}
     print(allOrders)
+
     # Sort column headers in lexicographical order (by chars in unicode value range) ascending
     allProductNames = sorted(allProductNames)
     all_column_headers: list[int] = ["Order ID"] + [d for d in allProductNames]
@@ -80,17 +81,24 @@ def get_dynamic_table(orders: list[list[str | int]]) -> list[list[str | int]]:
 
     # Fill 2d array with values, where column headers are product name and row headers are order id
     for row_order_id in sorted(allOrders, key=int):  # int to sort tables ascending by order_id
-        list: list[any] = []
-        list.append((row_order_id))
+        rows: list[any] = []
+        rows.append((row_order_id))
         for i in range(1, len(all_column_headers)):
             current_product: str = all_column_headers[i]
             if (current_product in allOrders[row_order_id]):
-                list.append(allOrders[row_order_id][current_product])
+                rows.append(allOrders[row_order_id][current_product])
             else:
-                list.append(0)
-        dynamic_table.append(list)
+                rows.append(0)
+        dynamic_table.append(rows)
 
-    # for row in dynamicTable:
+    # Creates total row which contains column totals
+    total_row: list[str | int] = ["Total"]
+    for column in list(zip(*dynamic_table[1:]))[1:]:
+        total_row.append(sum(column))
+
+    dynamic_table.append(total_row)
+
+    # for row in dynamic_table:
     #     print(row)
 
     return dynamic_table if not len(dynamic_table) <= 1 else []

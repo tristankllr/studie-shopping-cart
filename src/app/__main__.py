@@ -1,11 +1,11 @@
 from flask import Flask
 from flask_toastr import Toastr
 
-import middlewares
-import routes
-from infrastructure.config.parsers import load_config
-from infrastructure.database.session import create_sqlite_session_maker
-from infrastructure.log.main import configure_logging
+from src.app.middlewares import register as register_middleware
+from src.app.routes import register as register_routes
+from src.app.infrastructure.config.parsers import load_config
+from src.app.infrastructure.database.session import create_sqlite_session_maker
+from src.app.infrastructure.log.main import configure_logging
 
 
 def main() -> Flask:
@@ -16,8 +16,8 @@ def main() -> Flask:
     app = Flask(__name__)
 
     app.secret_key = 'Secret key'
-    middlewares.register(app, session_maker)
-    routes.register(app)
+    register_middleware(app, session_maker)
+    register_routes(app)
     toastr = Toastr()
     toastr.init_app(app)
 

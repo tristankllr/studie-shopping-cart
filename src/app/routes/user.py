@@ -22,8 +22,10 @@ def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'email' not in session:
+            print("email not in session")
             flash("Please log in", "info")
             return redirect(url_for('root.root'))
+        print("email in session")
         return f(*args, **kwargs)
     return decorated_function
 

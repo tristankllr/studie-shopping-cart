@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import List
+
 from pydantic import TypeAdapter
 from sqlalchemy import select
 
@@ -15,12 +17,12 @@ class OrderController(Controller[OrderModel]):
     def get_orders(self) -> list[OrderSchema]:
         stmt = select(OrderModel)
         orders = self.session.scalars(stmt).fetchall()
-        return TypeAdapter(list[OrderSchema]).validate_python(orders)
+        return TypeAdapter(List[OrderSchema]).validate_python(orders)
 
     def get_order_by_user_id(self, user_id: int) -> list[OrderSchema]:
         stmt = select(OrderModel).where(OrderModel.user_id == user_id)
         order = self.session.scalars(stmt).fetchall()
-        return TypeAdapter(list[OrderSchema]).validate_python(order)
+        return TypeAdapter(List[OrderSchema]).validate_python(order)
 
     def insert_order_by_user_id(self, user_id: int, total: float) -> int:
         try:

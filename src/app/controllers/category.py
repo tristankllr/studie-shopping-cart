@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import List
+
 from src.app.models.category import Category as CategoryModel
 from src.app.models.product import Product as ProductModel
 from pydantic import TypeAdapter
@@ -14,7 +16,7 @@ class CategoryController(Controller[CategoryModel]):
     def get_categories(self) -> list[CategorySchema]:
         stmt = select(CategoryModel)
         categories = self.session.scalars(stmt).fetchall()
-        return TypeAdapter(list[CategorySchema]).validate_python(categories)
+        return TypeAdapter(List[CategorySchema]).validate_python(categories)
 
     def get_category_with_product_info(self, category_id: int) -> list:
         # TODO hier kann man das noch schöner machen

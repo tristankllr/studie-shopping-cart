@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Any, Sequence
+from typing import Any, Sequence, List
 
 from pydantic import TypeAdapter
 from sqlalchemy import select, and_, func, Row, RowMapping
@@ -21,7 +21,7 @@ class CartController(Controller[CartModel]):
         return self.session.scalars(stmt).one_or_none()
 
     def count_items(self, user_id: int) -> int:
-        cart: list[CartSchema] = TypeAdapter(list[CartSchema]).validate_python(self.get_cart_by_user_id(user_id))
+        cart: list[CartSchema] = TypeAdapter(List[CartSchema]).validate_python(self.get_cart_by_user_id(user_id))
         return len(cart)
 
     def clear_cart_by_user_id(self, user_id: int) -> None:

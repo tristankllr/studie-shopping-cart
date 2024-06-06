@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import List
+
 from pydantic import TypeAdapter
 from sqlalchemy import select
 
@@ -13,7 +15,7 @@ class ProductController(Controller[ProductModel]):
     def get_products(self) -> list[ProductSchema]:
         stmt = select(ProductModel)
         products = self.session.scalars(stmt).fetchall()
-        return TypeAdapter(list[ProductSchema]).validate_python(products)
+        return TypeAdapter(List[ProductSchema]).validate_python(products)
 
     def get_product_by_id(self, product_id: int) -> ProductSchema:
         stmt = select(ProductModel).where(ProductModel.product_id == product_id)

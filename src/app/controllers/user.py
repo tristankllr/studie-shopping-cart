@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import List
+
 from pydantic import TypeAdapter
 from sqlalchemy import select
 
@@ -13,7 +15,7 @@ class UserController(Controller[UserModel]):
     def list_users(self) -> list[UserSchema]:
         stmt = select(UserModel)
         users = self.session.scalars(stmt.order_by(UserModel.user_id)).fetchall()
-        return TypeAdapter(list[UserSchema]).validate_python(users)
+        return TypeAdapter(List[UserSchema]).validate_python(users)
 
     def get_user_by_email(self, email: str) -> UserSchema:
         stmt = select(UserModel).where(UserModel.email == email)
