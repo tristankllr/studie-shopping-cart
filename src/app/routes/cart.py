@@ -8,6 +8,7 @@ from src.app.controllers.orders import OrderController
 from src.app.controllers.product import ProductController
 from src.app.routes.user import login_required
 
+ROOT = "root.root"
 remove_from_cart_blueprint = Blueprint("remove_from_cart", __name__, url_prefix="/remove-from-cart")
 cart_blueprint = Blueprint("cart", __name__, url_prefix="/cart")
 add_item_cart_blueprint = Blueprint("add_item", __name__, url_prefix="/add-to-cart")
@@ -33,7 +34,7 @@ def remove_from_cart():
     except Exception as e:
         flash(f"Error removing item from cart: {e}", "error")
 
-    return redirect(url_for('root.root'))
+    return redirect(url_for(ROOT))
 
 
 @add_item_cart_blueprint.route("/")
@@ -50,7 +51,7 @@ def add_to_cart():
     except Exception as e:
         flash(f"Error adding item from cart: {e}", "error")
 
-    return redirect(url_for('root.root'))
+    return redirect(url_for(ROOT))
 
 
 @checkout_blueprint.route("/")
@@ -76,7 +77,7 @@ def checkout():
     except Exception as e:
         flash(f"Error on checkout: {e}", "error")
 
-    return redirect(url_for('root.root'))
+    return redirect(url_for(ROOT))
 
 
 @cart_blueprint.route("/")

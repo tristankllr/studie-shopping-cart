@@ -7,6 +7,7 @@ from src.app.controllers.cart import CartController
 from src.app.controllers.user import UserController
 from src.app.schemas.user import User
 
+ROOT = "root.root"
 change_pw_blueprint = Blueprint("change_password", __name__, url_prefix="/account/profile/change-password")
 profile_blueprint = Blueprint("profile", __name__, url_prefix="/account/profile/edit")
 update_profile_blueprint = Blueprint("update_profile", __name__, url_prefix="/update-profile")
@@ -24,7 +25,7 @@ def login_required(f):
         if 'email' not in session:
             print("email not in session")
             flash("Please log in", "info")
-            return redirect(url_for('root.root'))
+            return redirect(url_for(ROOT))
         print("email in session")
         return f(*args, **kwargs)
     return decorated_function
@@ -107,7 +108,7 @@ def update_profile():
         )
     except Exception as e:
         flash(f'Error on updating profile: {e}', 'error')
-    return redirect(url_for('root.root'))
+    return redirect(url_for(ROOT))
 
 
 @register_user_blueprint.route("/", methods=["GET", "POST"])
@@ -169,13 +170,13 @@ def login():
             flash("Invalid UserId / Password", "error")
             return render_template('login.html')
 
-        return redirect(url_for('root.root'))
+        return redirect(url_for(ROOT))
 
 
 @login_form_blueprint.route("/")
 def login_form():
     if session['email'] != "":
-        return redirect(url_for('root.root'))
+        return redirect(url_for(ROOT))
     else:
         return render_template('login.html')
 
@@ -187,7 +188,7 @@ def logout():
     session.pop('first_name', None)
     session.pop('no_of_items', None)
     session.pop('logged_in', None)
-    return redirect(url_for('root.root'))
+    return redirect(url_for(ROOT))
 
 
 @profile_home_blueprint.route("/")

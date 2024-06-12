@@ -7,14 +7,14 @@ class MainConsoleFormatter(logging.Formatter):
     YELLOW = "\x1b[33;20m"
     RED = "\x1b[31;20m"
     RESET = "\x1b[0m"
-    FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
+    FORMAT_STR = "%(asctime)s - %(levelname)s - %(message)s"
 
     FORMATS = {
-        logging.DEBUG: GREY + FORMAT + RESET,
-        logging.INFO: GREEN + FORMAT + RESET,
-        logging.WARNING: YELLOW + FORMAT + RESET,
-        logging.ERROR: RED + FORMAT + RESET,
-        logging.CRITICAL: RED + FORMAT + RESET,
+        logging.DEBUG: GREY + FORMAT_STR + RESET,
+        logging.INFO: GREEN + FORMAT_STR + RESET,
+        logging.WARNING: YELLOW + FORMAT_STR + RESET,
+        logging.ERROR: RED + FORMAT_STR + RESET,
+        logging.CRITICAL: RED + FORMAT_STR + RESET,
     }
 
     def format(self, record):

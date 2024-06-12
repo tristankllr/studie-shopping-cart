@@ -19,7 +19,6 @@ class CategoryController(Controller[CategoryModel]):
         return TypeAdapter(List[CategorySchema]).validate_python(categories)
 
     def get_category_with_product_info(self, category_id: int) -> list:
-        # TODO hier kann man das noch schöner machen
         stmt = select(CategoryModel, ProductModel)\
             .join(ProductModel, CategoryModel.category_id == ProductModel.category_id)\
             .where(CategoryModel.category_id == category_id)

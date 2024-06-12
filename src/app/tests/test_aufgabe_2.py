@@ -8,9 +8,6 @@ class TestOrderTable(unittest.TestCase):
 
     # TODO Codequalität anpassen
     def test_new_feature(self):
-        test_input = []
-        self.assertIsNotNone(test_input)
-
         # test_input NICHT anpassen
         test_input = [
             [1, 12, "B: Test Product"],
@@ -24,7 +21,7 @@ class TestOrderTable(unittest.TestCase):
         # TODO Codequalität in Methode anpassen in ./src/app/routes/admin.py
         dynamic_table = get_dynamic_table(test_input)
 
-        # TODO expected_outcome anpassen um Test zu fixen: D.h. prüfen, was die Methode get_dynamic_table für den
+        # FIXME expected_outcome anpassen um Test zu fixen: D.h. prüfen, was die Methode get_dynamic_table für den
         #  test_input zurückgibt und hier entsprechend anpassen.
         expected_outcome = [
             ["Order ID", "B: Test Product", "A: Test Product", "Z: Test Product"],
