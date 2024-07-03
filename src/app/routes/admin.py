@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+
 from flask import Blueprint, session, redirect, url_for, render_template, flash, g
 
 from src.app.controllers import OrderController
@@ -100,6 +101,14 @@ def get_dynamic_table(orders: list[list[str | int]]) -> list[list[str | int]]:
         total_row.append(sum(column))
 
     dynamic_table.append(total_row)
+
+
+
+    total_Column: list[str | int] = ["Total"]
+    for rows in list(zip(*dynamic_table[1:]))[1:]:
+        total_Column.append(sum(rows))
+
+    dynamic_table.append(total_Column)
 
     dynamic_table = calculate_row_totals(dynamic_table)
 
